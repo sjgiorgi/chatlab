@@ -65,7 +65,7 @@ Embedding ChatLab
          src="https://<YOUR-CHATLAB-DOMAIN>/conversation?
               bot_name=<BOT-NAME>
               &conversation_id=[record-id]
-              &participant_id=[record-id]
+              &participant_id=<PARTICIPANT-ID>
               &survey_id=[]
               &study_name=<STUDY-NAME>"
          width="100%"
@@ -75,6 +75,7 @@ Embedding ChatLab
       </iframe>
 
 6. Replace the placeholders:
+
    - ``<BOT-NAME>`` — your bot's name
    - ``<STUDY-NAME>`` — your chosen study label
    - ``<SURVEY-ID>`` - your unique REDCap survey indentifier

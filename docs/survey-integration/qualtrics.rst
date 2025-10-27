@@ -140,6 +140,7 @@ Embedding ChatLab
 
 
 5. Replace the placeholders:
+
    - ``<BOT-NAME>`` — your bot's name
    - ``<STUDY-NAME>`` — your chosen study label
    - ``<SURVEY-ID>`` - your unique Qualtrics survey indentifier
