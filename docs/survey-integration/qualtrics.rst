@@ -148,7 +148,7 @@ appending them to ``botURL``.
 
    .. code-block:: javascript
 
-         var someSurveyQuestion = "${e://Field/some-question}";  // qualtrics session Id
+         var someSurveyQuestion = "${e://Field/some-question}"; 
          ...
          botURL += "?survey_question_response=" + encodeURIComponent(someSurveyQuestion);
 
