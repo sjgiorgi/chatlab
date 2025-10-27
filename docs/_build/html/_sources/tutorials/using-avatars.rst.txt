@@ -1,0 +1,6 @@
+Using Avatars
+=============
+
+Add avatars to visually represent agents or participants in conversations.
+This guide covers referencing avatar assets, syncing visuals with personas,
+and integrating avatars into your front-end or logging pipeline.

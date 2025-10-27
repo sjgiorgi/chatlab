@@ -1,0 +1,13 @@
+Quick Start Guide
+=================
+
+Here’s a simple example of how to use the library:
+
+.. code-block:: python
+
+   import your_package
+
+   result = your_package.do_something()
+   print(result)
+
+See the :doc:`tutorials/index` for step-by-step guides.

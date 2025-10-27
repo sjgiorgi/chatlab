@@ -1,0 +1,6 @@
+Using Personas
+==============
+
+Define and activate personas to change the model's speaking style, tone,
+and background assumptions. You'll learn how to create persona templates,
+load them dynamically, and test how they influence generated responses.

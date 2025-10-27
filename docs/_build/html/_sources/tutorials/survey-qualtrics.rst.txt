@@ -1,0 +1,6 @@
+Qualtrics Integration
+=====================
+
+Learn how to connect your system with Qualtrics to automatically pull participant
+data, send personalized surveys, and log responses for downstream analysis.
+This tutorial covers API setup, authentication, and linking survey IDs to participant records.

@@ -1,0 +1,6 @@
+MTurk Integration
+=================
+
+Connect your research system to Amazon Mechanical Turk to post tasks, approve
+submissions, and manage participant flow. This tutorial explains how to authenticate
+requests, structure HITs, and retrieve worker data safely and efficiently.

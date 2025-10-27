@@ -1,0 +1,54 @@
+Tutorials
+=========
+
+Here you’ll find a collection of step-by-step examples organized by topic.
+
+Survey Integration
+------------------
+
+.. toctree::
+   :maxdepth: 1
+
+   survey-qualtrics
+   survey-redcap
+
+Crowdsourcing Integration
+-------------------------
+
+.. toctree::
+   :maxdepth: 1
+
+   crowd-prolific
+   crowd-mturk
+
+Model & Configuration Guides
+----------------------------
+
+.. toctree::
+   :maxdepth: 1
+
+   choosing-llms
+   changing-api-keys
+   
+
+Human-like Chats, Personas & Avatars
+------------------------------------
+
+.. toctree::
+   :maxdepth: 1
+
+   configuring-delays
+   using-personas
+   using-avatars
+
+Conversation & Text Analysis
+----------------------------
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Conversation & Text Analysis
+
+   analysis-dlatk
+   analysis-convokit
+   analysis-text
+
