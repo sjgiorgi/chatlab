@@ -42,10 +42,10 @@ jobs:
             pip install "Sphinx>=8.2" furo myst-parser sphinx-copybutton sphinx-sitemap
 
       # OPTIONAL: generate API .rst files from your package (adjust path to your package)
-      - name: Generate API stubs (sphinx-apidoc)
-        run: |
-            mkdir -p docs/api
-            sphinx-apidoc -o docs/api PATH/TO/YOUR_PACKAGE
+      # - name: Generate API stubs (sphinx-apidoc)
+      #   run: |
+      #       mkdir -p docs/api
+      #       sphinx-apidoc -o docs/api PATH/TO/YOUR_PACKAGE
 
       - name: Build HTML
         run: sphinx-build -b html docs docs/_build/html
