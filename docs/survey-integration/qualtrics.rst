@@ -138,7 +138,15 @@ Embedding ChatLab
 
       });
 
-5. You may also want to add instructions on the task to your **Text / Graphic** question.
+
+5. Replace the placeholders:
+   - ``<BOT-NAME>`` — your bot's name
+   - ``<STUDY-NAME>`` — your chosen study label
+   - ``<SURVEY-ID>`` - your unique Qualtrics survey indentifier
+   - ``<YOUR-CHATLAB-DOMAIN>`` - 
+   - ``<PARTICIPANT-ID>`` (optional)
+6. You may also want to add instructions on the task to your **Text / Graphic** question.
+7. Save and preview the form to verify that the chat window loads correctly.
 
 Passing Data
 ------------
@@ -223,6 +231,13 @@ You can monitor your participant's typing activity by recording their keystrokes
          }
       }
 
+
+Validation
+----------
+
+1. Preview your Qualtrics survey.
+2. Open developer console (F12) → check for "Generated botURL" logs.
+3. Confirm the embedded ChatLab iframe loads successfully.
 
 Other Options
 -------------
