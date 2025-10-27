@@ -87,8 +87,6 @@ Embedding ChatLab
 
       });
 
-      
-   
 
 Passing Data
 ------------
