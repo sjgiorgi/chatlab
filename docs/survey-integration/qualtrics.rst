@@ -6,30 +6,81 @@ Overview
 
 Use ChatLab to embed conversational tasks into your Qualtrics survey pages.
 
+.. important::
+
+   Note that your Qualtrics account must be able to edit JavaScript. 
+   You may need to speak with Qualtrics customer support to get this feature turned on.
 
 Data Needed to Embed Bot
 ------------------------
 
-- **Survey ID**: 
-- **Bot Name**:
-- **Study Name**:  
+ChatLab Domain
+^^^^^^^^^^^^^^
+
+You must deploy ChatLab (following the :doc:`/deployment/index` guide). You will then 
+have a domain name for your chatbot, which you put in place of ``<YOUR-CHATLAB-DOMAIN>`` below. 
+
+Survey ID
+^^^^^^^^^
+
+1. Navigate to your survey.
+2. Click on Distirbutions.
+3. Click on **Anonymous link**. If needed you can generate one.
+4. Copy the survey ID from the link. It typically starts with ``SV_`` (for example, ``SV_cBaJiOettfQqZRY``).
+5. Replace ``<SURVEY-ID>`` with your survey ID in the code below.
+
+
+Bot Name
+^^^^^^^^
+
+1. Navigate to the ChatLab admin panel and login. 
+2. On the left, under CHATBOT, click on `Bots`.
+3. You can use the search bar to find your bot.
+4. Copy the name under the NAME column.
+5. Replace ``<BOT-NAME>`` with your bot name in the code below.
+
+Alternatively, this could be created in your survey flow and saved to an Embedded Data
+field. For example, if your embedded data field was called ``model`` then you would
+replace ``<BOT-NAME>`` with ``${e://Field/model}`` in the code below. This allows you
+to build sophisticated survey flows and serve different bots depending on how your
+participants answer survey questions.
+
+.. important::
+
+   This **must** exactly match the bot name in ChatLab's database. 
+
+Study Name
+^^^^^^^^^^
+
+This is a descriptive name for your study, which will be saved in ChatLab's. For example, 
+if you study was related to a therapy bot, you could call the study ``therapy_bot``. We
+recommend keeping the name simple, yet descriptive, so that you can distinguish 
+between multiple studies. Replace ``<STUDY-NAME>`` with your name in the code below.
+
+Participant ID (Optional)
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+You may also have an ID for your participant saved in an Embedded Data field. This
+could be a Prolific or Mturk Worker ID. If so, you can replace ``<PARTICIPANT-ID>`` with
+your embedded data, for example ``${e://Field/pid}`` if your embedded data field is ``pid``.
+If you do not have this then you can set this value as the Response ID ``${e://Field/ResponseID}``,
+i.e., a unique identifier for each row in your survey data.
 
 Embedding ChatLab
 -----------------
 
 1. Deploy ChatLab on AWS following the :doc:`/deployment/index` guide.
-2. Obtain your webview URL (e.g., ``https://chatlab.yourdomain.org/conversation``).
-3. In Qualtrics, add a **Text / Graphic** question.
-4. Open the JavaScript editor. This is typically on the left under Edit Question -> Question Behavior
-5. Add the following code in the editor under Edit Question JavaScript:
+2. In Qualtrics, add a **Text / Graphic** question.
+3. Open the JavaScript editor. This is typically on the left under Edit Question -> Question Behavior
+4. Add the following code in the editor under Edit Question JavaScript:
 
-   .. code-block:: php
+   .. code-block:: javascript
 
       Qualtrics.SurveyEngine.addOnload(function() {
-         var studyName = "Anthropomorphism Study";  // Match expected value
-         var botName = "${e://Field/model}";  
-         var surveyID = "SV_cBajyfQsVTKqZRY";  //unique survey ID
-         var participantID = "${e://Field/pid}";  // Unique prolific participant ID
+         var studyName = "<STUDY-NAME>";  
+         var botName = "<BOT-NAME>";  // Match expected value
+         var surveyID = "<SURVEY-ID>";  //unique survey ID
+         var participantID = "<PARTICIPANT-ID>";  // Unique prolific participant ID
          var conversationID = "${e://Field/ResponseID}";  // qualtrics session Id
 
          window.totalTimeOnPage = 0;
@@ -38,7 +89,7 @@ Embedding ChatLab
          window.awayStartTime = null;
 
          // Construct chatbot URL with encoded parameters
-         var botURL = "https://chatlab.yourdomain.org/conversation";
+         var botURL = "https://<YOUR-CHATLAB-DOMAIN>/conversation";
          botURL += "?bot_name=" + encodeURIComponent(botName);
          botURL += "&conversation_id=" + encodeURIComponent(conversationID);
          botURL += "&participant_id=" + encodeURIComponent(participantID);
@@ -87,24 +138,36 @@ Embedding ChatLab
 
       });
 
+5. You may also want to add instructions on the task to your **Text / Graphic** question.
 
 Passing Data
 ------------
 
-Use Qualtrics embedded data fields (e.g. ``ResponseID``)
-to pass participant metadata through URL parameters. ChatLab logs these automatically.
+You can send other data to ChatLab's backend database by adding additional variables and 
+appending them to ``botURL``.
+
+   .. code-block:: javascript
+
+         var someSurveyQuestion = "${e://Field/some-question}";  // qualtrics session Id
+         ...
+         botURL += "?survey_question_response=" + encodeURIComponent(someSurveyQuestion);
+
+Note that the entirety of ``botURL`` is saved as a raw string in ChatLab's backend,
+which allows you to send arbitrary amounts of data from your survey without modifying
+the database structure (i.e., you can parse variables from the raw string at a later date).
 
 Data Linking
 ------------
 
-- Each conversation is stored with a `participant_id`
-- Survey responses remain linked to conversation logs
-- You can merge data via Qualtrics exports or the ChatLab database
+- Each conversation is stored with a ``conversation_id``.
+- The variable ``conversation_id`` (in ChatLab) can then be merged on the ``ResponseID`` variable in your Qualtrics data.
 
 Keystrokes
 ----------
 
-   .. code-block:: php
+You can monitor your participant's typing activity by recording their keystrokes.
+
+   .. code-block:: javascript
 
       // Function to update time counters and send keystroke data
       function handlePageExit() {
@@ -159,3 +222,9 @@ Keystrokes
             .catch(error => console.error("Error sending keystroke data:", error));
          }
       }
+
+
+Other Options
+-------------
+
+- You may also want to add a timer question which ensures the participant stays on the chat window for a specified amount of time. 
