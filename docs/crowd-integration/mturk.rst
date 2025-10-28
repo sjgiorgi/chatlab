@@ -4,20 +4,107 @@ MTurk Integration
 Overview
 --------
 
-ChatLab can also be deployed via MTurk by linking an embedded Qualtrics or
-REDCap survey as the HIT URL.
+ChatLab can integrate directly with **Amazon Mechanical Turk (MTurk)** to link
+worker identifiers (Worker IDs, HIT IDs, Assignment IDs) with your survey and
+chat conversation data. This enables accurate data merging, auditing, and
+protection against data loss.
 
-Setup
------
+MTurk metadata is stored automatically in ChatLab's backend when passed through
+survey URLs.
 
-1. Create a new HIT in your MTurk requester account.
-2. Use your survey URL (with embedded ChatLab iframe) as the task link.
-3. Add URL parameters to track worker IDs and conditions:
+Workflow Summary
+----------------
 
-   ``?workerId=${workerid}&assignmentId=${assignmentid}``
+To use ChatLab through MTurk:
 
-Tracking and Completion
------------------------
+1. **Create an MTurk HIT (Human Intelligence Task).**
+2. **Set the External Question URL** to your survey (Qualtrics or REDCap)
+   that includes a ChatLab chatbot.
+3. MTurk automatically appends identifying parameters to your survey URL:
 
-Worker IDs and task completion status are logged automatically in ChatLab's
-database alongside conversation data.
+   ``?assignmentId=${assignmentId}&workerId=${workerId}&hitId=${hitId}``
+
+4. In your survey, **save each parameter as embedded data**.
+5. Pass these values through your ChatLab integration code so they are stored
+   in the backend database.
+
+   .. code-block:: javascript
+
+      Qualtrics.SurveyEngine.addOnload(function() {
+         ...
+         var workerID = "<WORKER-ID>";       // MTurk workerId
+         var assignmentID = "<ASSIGNMENT-ID>"; // MTurk assignmentId
+         var hitID = "<HIT-ID>";               // MTurk hitId
+
+         ...
+
+         botURL += "&participant_id=" + encodeURIComponent(workerID);
+         botURL += "&mturk_assignment_id=" + encodeURIComponent(assignmentID);
+         botURL += "&mturk_hit_id=" + encodeURIComponent(hitID);
+      });
+
+Example (Qualtrics)
+-------------------
+
+To capture and link MTurk identifiers in **Qualtrics**:
+
+1. Open your survey.
+2. Navigate to **Survey Flow → Add a New Element → Embedded Data**.
+3. Add the following variables and set them to pull from the URL:
+
+   .. code-block:: text
+
+      Set Embedded Data:
+
+         workerId     → Value will be set from Panel or URL
+         assignmentId → Value will be set from Panel or URL
+         hitId        → Value will be set from Panel or URL
+
+4. Save your Survey Flow.
+5. In the ChatLab question's JavaScript editor, reference the embedded fields:
+
+   .. code-block:: javascript
+
+      Qualtrics.SurveyEngine.addOnload(function() {
+         ...
+         var workerID = "${e://Field/workerId}";
+         var assignmentID = "${e://Field/assignmentId}";
+         var hitID = "${e://Field/hitId}";
+
+         ...
+
+         botURL += "&participant_id=" + encodeURIComponent(workerID);
+         botURL += "&mturk_assignment_id=" + encodeURIComponent(assignmentID);
+         botURL += "&mturk_hit_id=" + encodeURIComponent(hitID);
+      });
+
+Data Storage and Linking
+------------------------
+
+Once participants complete the chatbot interaction, their MTurk identifiers
+are stored within the ChatLab database:
+
+- ``participant_id`` → stored in ``chatbot_conversation.participant_id``
+- ``mturk_assignment_id`` → stored in ``chatbot_conversation.survey_meta_data``
+- ``mturk_hit_id`` → stored in ``chatbot_conversation.survey_meta_data``
+
+These fields can be used to merge ChatLab logs with MTurk exports or survey data.
+
+Tracking and Payment Verification
+---------------------------------
+
+- You can use the ``assignmentId`` or ``hitId`` values to verify completion
+  and automate bonus payments through the MTurk API.
+- Completion codes can be displayed on your survey's final page or inside
+  the ChatLab chat after the final message.
+- These codes can also be included in ``survey_meta_data`` for verification.
+
+Best Practices
+--------------
+
+- Test your HIT in **MTurk Sandbox** to ensure all parameters
+  (`workerId`, `assignmentId`, `hitId`) are properly passed.
+- Confirm that conversation entries appear in ChatLab's **Admin Panel**
+  with matching MTurk metadata.
+- Always use the same parameter names (`workerId`, `assignmentId`, `hitId`)
+  in both the survey and your ChatLab embed script.

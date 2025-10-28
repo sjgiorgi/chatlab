@@ -59,7 +59,7 @@ To capture and pass Prolific IDs in **Qualtrics**:
          SESSION_ID     → Value will be set from Panel or URL
 
 4. Save your Survey Flow.
-5. In the ChatLab question’s JavaScript editor, reference the embedded data:
+5. In the ChatLab question's JavaScript editor, reference the embedded data:
 
    .. code-block:: javascript
 
@@ -86,18 +86,17 @@ in ChatLab's backend:
 
 This makes it easy to merge ChatLab data with Prolific and survey exports.
 
-Tracking and Completion Codes
------------------------------
+Completion Codes
+----------------
 
-- ChatLab automatically records all Prolific parameters passed through the survey link.
 - Completion codes can be displayed at the end of the chat or survey.
 - These codes can also be included in ``survey_meta_data`` for verification.
 
 Best Practices
 --------------
 
-- Test your survey link from **Prolific’s Preview mode** to confirm that
-  ``PID``, ``STUDY_ID``, and ``SESSION_ID`` appear in the URL.
+- Test your survey link from **Prolific's Preview mode** to confirm that
+  ``PROLIFIC_PID``, ``STUDY_ID``, and ``SESSION_ID`` appear in the URL.
 - Verify that each conversation appears in ChatLab's **Admin Panel** with
   the expected participant ID.
 - Keep consistent naming for studies and bots across platforms.
