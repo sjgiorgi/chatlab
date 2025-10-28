@@ -4,9 +4,10 @@ Survey Integration
 Overview
 --------
 
-ChatLab integrates directly with major survey platforms like **Qualtrics**
-and **REDCap**, allowing you to embed live large language model (LLM)
-chat sessions within survey instruments. Participants experience the
+ChatLab integrates directly with major survey platforms like
+:doc:`Qualtrics </survey-integration/qualtrics>` and
+:doc:`REDCap </survey-integration/redcap>`,
+allowing you to embed live language model chat sessions within survey instruments. Participants experience the
 chatbot as a seamless part of the survey, appearing as an inline question
 or form component through an embedded iframe.
 
