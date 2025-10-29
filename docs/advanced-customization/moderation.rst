@@ -73,6 +73,7 @@ Logging and Review
 ------------------
 
 All moderated messages are recorded in the database with:
+
 - Message text (if permitted)
 - Timestamp
 - Category scores
