@@ -9,7 +9,8 @@ Use ChatLab to embed conversational tasks into your Qualtrics survey pages.
 .. important::
 
    Note that your Qualtrics account must be able to edit JavaScript. 
-   You may need to speak with Qualtrics customer support to get this feature turned on.
+   Some institutions disable this for security reasons. Contact your Qualtrics 
+   administrator if iframes are not permitted.
 
 Data Needed to Embed Bot
 ------------------------

@@ -1,4 +1,4 @@
-ChatLab — Embedding Human–AI Conversations in Research Studies
+ChatLab — Embedding Human-AI Conversations in Research Studies
 ==============================================================
 
 *An open-source backend for integrating LLM-driven chat experiences into surveys and crowdsourced studies*
@@ -11,14 +11,14 @@ directly inside survey platforms such as **Qualtrics** and **REDCap**, which can
 then be deployed via **Prolific** or **MTurk** for participant recruitment.
 
 Participants never access ChatLab directly. Instead, ChatLab runs on AWS and
-serves a secure web interface that is loaded as an **iframe within surveys**.
+serves a secure web interface that is loaded **within surveys**.
 All conversations and metadata are stored automatically for later analysis.
 
 Workflow Summary
 ----------------
 
 1. **Deploy ChatLab** on AWS (Dockerized backend and React frontend)  
-2. **Embed ChatLab** within Qualtrics or REDCap using an iframe  
+2. **Embed ChatLab** within Qualtrics or REDCap  
 3. **Run surveys** through Prolific or MTurk for recruitment  
 4. **Collect and export conversation data** for analysis  
 
