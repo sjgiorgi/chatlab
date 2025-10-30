@@ -1,11 +1,20 @@
-Deployment Guide (AWS)
-======================
+Deployment Guide
+===============
 
-ChatLab is designed to be deployed on AWS using Docker containers. This setup
-creates two services:
+ChatLab can be deployed both locally for development and on AWS for production. The system
+consists of several services:
 
 - A **frontend webview** for embedding into surveys  
-- A **backend API** for managing bots, participants, and data collection  
+- A **backend API** for managing bots, participants, and data collection
+- A **documentation server** for easy access to guides and API references
+- **Database** and cache services for data persistence
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+   running-locally
+   aws-deployment
 
 AWS Setup
 ---------
