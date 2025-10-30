@@ -13,6 +13,7 @@ consists of several services:
    :maxdepth: 2
    :caption: Contents:
 
+   for-researchers
    running-locally
    aws-deployment
 
