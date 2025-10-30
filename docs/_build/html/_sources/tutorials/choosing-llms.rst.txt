@@ -1,7 +1,0 @@
-Choosing Different LLMs
-=======================
-
-Learn how to select and configure different large language models (LLMs)
-such as OpenAI's GPT-4o, Anthropic's Claude, or local open-source models.
-The tutorial outlines trade-offs in cost, speed, and performance and shows
-how to switch models in your configuration.

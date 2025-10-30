@@ -1,6 +1,0 @@
-REDCap Integration
-==================
-
-Integrate with REDCap to manage participant data collection securely within a
-research workflow. You'll configure an API token, push data to and from REDCap
-projects, and ensure that survey responses sync correctly with your study pipeline.

@@ -1,6 +1,0 @@
-Configuring Human-like Delays
-=============================
-
-Simulate natural, human-style typing or response timing. This tutorial
-walks you through adjusting delay parameters, randomness, and pacing logic
-for more authentic user interactions or demo scenarios.

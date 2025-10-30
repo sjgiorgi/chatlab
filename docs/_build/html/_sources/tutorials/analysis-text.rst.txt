@@ -1,6 +1,0 @@
-Conversation Analysis with R's text Package
-===========================================
-
-Leverage the **text** package in R for high-level linguistic and semantic
-analysis of conversation transcripts. You'll learn how to import your data,
-compute embeddings, and visualize textual relationships using R's tidy workflow.
