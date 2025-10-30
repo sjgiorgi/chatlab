@@ -37,15 +37,21 @@ You'll need:
 
 2. **IAM Credentials**
 
-   These are secure "keys" that let GitHub deploy to your AWS account.
+   These are secure “keys” that let GitHub deploy to your AWS account.
 
-   - Log into AWS.
-   - Go to **IAM → Users → Create User**.
-   - Check **Programmatic access**.
-   - Grant **AdministratorAccess** (you can restrict this later).
-   - Download:
-     - Access key ID
-     - Secret access key
+   Step-by-step in AWS:
+
+   1. Sign in to the AWS Console.
+   2. Go to **IAM** (search “IAM” in the top search bar).
+   3. In the sidebar, click **Users** → **Create user**.
+   4. Name your user something like ``chatlab-deployer``.
+   5. Under “Select AWS access type,” check **Programmatic access**.
+   6. On the next screen, choose **Attach existing policies directly**.
+   7. Search for and select **AdministratorAccess** (you can restrict this later).
+   8. Click **Next → Create user**.
+   9. Download the credentials file or copy:
+      - **Access key ID**
+      - **Secret access key**
 
 3. **A Domain Name**
 
@@ -56,54 +62,79 @@ You'll need:
 
 ---
 
-Setting Up GitHub
------------------
+Adding Your AWS Keys to GitHub
+------------------------------
 
-1. Fork the ChatLab repository on GitHub.  
-   (Click **Fork** in the top-right of the ChatLab repo.)
+Once you have your AWS access keys, store them in your GitHub repository as **encrypted secrets**.  
+These are required for the "one-click deploy" workflow to connect to your AWS account.
 
-2. In your fork, go to **Settings → Secrets and Variables → Actions**.
+Follow these steps carefully:
 
-3. Add the following secrets:
+1. Go to your repository:  
+   **https://github.com/wwbp/humanlike-chatbot**
 
-   - ``AWS_ACCESS_KEY_ID``  
-   - ``AWS_SECRET_ACCESS_KEY``
+2. Click the **⚙️ Settings** tab (top of the page).
 
-   These are the keys you downloaded from AWS.  
-   They are encrypted and only visible to GitHub Actions.
+3. In the sidebar, scroll down and click **Secrets and variables → Actions**.
+
+   Direct link:  
+   ``https://github.com/wwbp/humanlike-chatbot/settings/secrets/actions``
+
+4. Click the **New repository secret** button.
+
+5. Add your first secret:
+
+   - **Name:** ``AWS_ACCESS_KEY_ID``  
+   - **Value:** paste your Access Key ID from AWS  
+   - Click **Add secret**
+
+6. Click **New repository secret** again and add your second secret:
+
+   - **Name:** ``AWS_SECRET_ACCESS_KEY``  
+   - **Value:** paste your Secret Access Key from AWS  
+   - Click **Add secret**
+
+7. Confirm both appear in your secrets list:
+
+   ::
+
+      AWS_ACCESS_KEY_ID        updated a few seconds ago
+      AWS_SECRET_ACCESS_KEY    updated a few seconds ago
+
+These secrets are stored securely by GitHub and only accessible by your workflows.
+They are **never visible to the public** or committed to your repository.
 
 ---
 
 Deploying ChatLab
 -----------------
 
-1. Go to the **Actions** tab in your ChatLab repository.
+1. Go to your repo's **Actions** tab.
 2. Find **“Deploy ChatLab to AWS (One-Click)”**.
 3. Click **Run workflow**.
-4. Fill in:
+4. Fill in the form:
    - AWS region: ``us-east-1`` (default)
    - Domain: your base domain (e.g., ``mychatstudy.org``)
    - Subdomain: what you want for ChatLab (e.g., ``chatlab``)
    - Database username and password (choose any)
 5. Click **Run**.
 
-That's it!  
 GitHub will automatically:
 
-- Create your AWS infrastructure  
-- Build your frontend website  
-- Upload everything to AWS  
-- Generate an HTTPS certificate  
-- Print your site URL (e.g., ``https://chatlab.mychatstudy.org``)
+- Connect to your AWS account using the secrets you added
+- Create all AWS services (database, web app, storage, SSL)
+- Build and upload your frontend
+- Print your live URL (e.g., ``https://chatlab.mychatstudy.org``)
 
-Deployment takes ~15 minutes.
+Deployment takes about 10-15 minutes.
 
 ---
 
 After Deployment
 ----------------
 
-When the workflow finishes, you'll see something like this:
+When the workflow finishes, scroll to the end of the GitHub Action log.
+You'll see something like this:
 
 ::
 
@@ -113,20 +144,18 @@ When the workflow finishes, you'll see something like this:
    🗄️  DB:    chatlab-db.xxxxx.us-east-1.rds.amazonaws.com
    🚀 EB:     chatlab-env.eba-xxxxx.us-east-1.elasticbeanstalk.com
 
-You now have a fully functional ChatLab instance!
-
-You can embed it in Qualtrics or REDCap surveys using the instructions in
-:doc:`/survey-integration/index`.
+Your ChatLab instance is now live and ready to embed in Qualtrics or REDCap.
+See :doc:`/survey-integration/index` for details.
 
 ---
 
 Removing ChatLab
 ----------------
 
-If you ever want to remove everything and stop AWS charges:
+If you want to stop paying for AWS resources or reset your environment:
 
-1. Duplicate the deployment workflow.
-2. Replace this line:
+1. Duplicate the deployment workflow file.
+2. Replace the line:
 
    ``terraform apply -auto-approve``
 
@@ -134,16 +163,8 @@ If you ever want to remove everything and stop AWS charges:
 
    ``terraform destroy -auto-approve``
 
-3. Run that workflow once — Terraform will delete all AWS resources safely.
-
----
-
-Troubleshooting
-----------------
-
-- **Error: Missing credentials** → double-check your AWS secrets in GitHub.
-- **Domain not resolving** → make sure your domain is in AWS Route 53.
-- **Slow first load** → CloudFront may take a few minutes to propagate globally.
+3. Save and run that new workflow once.
+4. Terraform will automatically delete all AWS resources for you.
 
 ---
 
@@ -151,25 +172,28 @@ FAQ
 ---
 
 **Q: Do I need to install Terraform or Docker?**  
-No — GitHub runs Terraform automatically in the cloud. You don't install anything.
+No — GitHub handles Terraform automatically in the cloud.
 
 **Q: Do I pay Terraform?**  
-No — Terraform is free and open source. You only pay AWS for what's used.
+No — Terraform is free and open source. You only pay AWS for usage.
 
-**Q: Can multiple people use the same AWS account?**  
-Yes. You can create separate IAM users for collaborators and give them limited access.
+**Q: Where do my AWS credentials live?**  
+They're encrypted inside your GitHub repository settings and only available to Actions.
 
-**Q: What happens if I delete my GitHub repo?**  
-Your AWS resources will remain running. To delete them, run the "destroy" workflow first.
+**Q: Can multiple team members deploy ChatLab?**  
+Yes. Add multiple IAM users in AWS and share the repo. Each person can reuse the same secrets.
+
+**Q: What if I made a mistake in my secrets?**  
+Go back to **Settings → Secrets and variables → Actions**, delete the old secret, and re-add it.
 
 ---
 
 Summary
 -------
 
-- 🧩 **You own everything** — it's deployed to your AWS account.  
-- 🧠 **You control it** — GitHub handles the deployment.  
-- 🚀 **You don't need DevOps** — just click "Run workflow.""
-- 🔐 **Secure** — HTTPS by default, credentials stay private.
+- 🔐 Add AWS credentials as **GitHub Secrets**  
+- ⚙️ Run the **Deploy ChatLab** workflow once  
+- 🌍 Get your own HTTPS site on AWS automatically  
+- 🧹 Run "destroy" workflow anytime to remove everything
 
-This setup lets researchers deploy ChatLab in minutes — no AWS console, no manual setup, and no coding required.
+This approach lets non-technical researchers deploy ChatLab securely and reproducibly with **no coding or AWS console steps required**.
